@@ -1,5 +1,6 @@
 # NoseSavers
-This in an app will save your nose from pollens!
+This in an app that will save your nose from pollens!
+
 
 # Program Walkthrough
 
