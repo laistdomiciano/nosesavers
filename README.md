@@ -1,6 +1,7 @@
 # NoseSavers
 This in an app that will save your nose from pollens!
 
+<<<<<<< HEAD
 
 # Program Walkthrough
 
@@ -32,3 +33,17 @@ To run the app you need to import Request library (pip install requests)
 Ibrahim - blvlblbl
 Maria -
 Laís - 
+=======
+# Requirements:
+You need to run the following commands in the terminal:
+$ pip install requests
+
+# How to Run NoseSaver:
+$ git clone https://github.com/laistdomiciano/nosesavers
+$ cd nosesavers
+$ python3 main.py
+
+
+
+The pollen forecast is based on the European 11-kilometre air quality forecast from CAMS and the global 40-kilometre atmospheric composition forecast from CAMS. The European and global ranges are not coupled and may show different forecasts.
+>>>>>>> cb77e42 (Create a file to retrieve daily pollen data from the weather API based on user location, plant selection and current date. For the location, a second API is accessed to convert the location to latitude and longitude)

@@ -1,4 +1,5 @@
 import json
+import uuid
 
 
 def read_database():
@@ -27,12 +28,13 @@ def add_user():
             phone_number = input("Please insert a phone number: ")
             if not phone_number.isdigit():
                 raise ValueError("Phone number must contain only digits.")
-            if len(phone_number) != 12:
+            if len(phone_number) != 13:
                 raise ValueError("Please insert a valid phone number.")
             location = input("Please insert a location: ")
             USERS_DATABASE.append({
+                "id": str(uuid.uuid4()),
                 "user_name": [user_first_name, user_last_name],
-                "phone_number": int(phone_number),
+                "phone_number": str(phone_number),
                 "location": location
             })
             print("User added successfully!")
@@ -41,14 +43,15 @@ def add_user():
             print("Error:", e)
     sync_database()
 
+
 def update_user():
     """Updates any of the fields in the database based on the user selection"""
     updated = False
     while not updated:
-        user_to_be_updated = input("Please select a user to be updated: ")
+        user_to_be_updated = input("Please select an user to be updated (use last name): ")
         found = False
         for i in range(len(USERS_DATABASE)):
-            if USERS_DATABASE[i]["user_name"][0].lower() == user_to_be_updated.lower():
+            if USERS_DATABASE[i]["user_name"][1].lower() == user_to_be_updated.lower():
                 print("""What would you like to update?
 Select one of the options below:
 0 for User first name
