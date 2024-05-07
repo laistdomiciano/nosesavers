@@ -5,8 +5,9 @@ BASE_URL = 'https://43l848.api.infobip.com'
 AUTHORIZATION = 'App 3dec643d54c66b6fab8fbfcce32f8081-27aba670-39dd-40be-8371-0f5acd088797'
 SEND_SMS_URL = '/sms/2/text/advanced'
 
-def create_message(location, pollen_type):
-    return f"🌼 Pollen Alert! 🌼\n\n Hey {user_name} You are in {location} and in this location you will get pollen from {pollen_type} trees."
+# def create_message(location, pollen_type):
+#     return f"🌼 Pollen Alert! 🌼\n\n Hey {user_name} You are in {location} and in this location you will get pollen from {tree_type} trees."
+
 
 def send_sms(phone_number, message):
     try:
@@ -41,8 +42,7 @@ def send_sms(phone_number, message):
 
 user_name = 'John'
 location = 'Germany'
-pollen_type = 'oak'
+tree_type = 'oak'
 message = create_message(location, pollen_type)
-phone_number = '491734508014'
+phone_number = '4917657959708'
 response = send_sms(phone_number, message)
-
