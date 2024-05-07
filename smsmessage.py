@@ -6,7 +6,7 @@ AUTHORIZATION = 'App 3dec643d54c66b6fab8fbfcce32f8081-27aba670-39dd-40be-8371-0f
 SEND_SMS_URL = '/sms/2/text/advanced'
 
 def create_message(location, pollen_type):
-    return f"🌼 Pollen Alert! 🌼\n\n You are in {location} and in this location you will get pollen from {pollen_type} trees."
+    return f"🌼 Pollen Alert! 🌼\n\n Hey {user_name} You are in {location} and in this location you will get pollen from {pollen_type} trees."
 
 def send_sms(phone_number, message):
     try:
@@ -26,7 +26,7 @@ def send_sms(phone_number, message):
                             'to': phone_number
                         }
                     ],
-                    'from': 'Weather SMS',
+                    'from': 'NoseSaver',
                     'text': message
                 }
             ]
@@ -39,9 +39,10 @@ def send_sms(phone_number, message):
         print(f'An error occurred while attempting to send SMS message to "{phone_number}" (message: "{message}"). \nError: {e}')
         return None
 
+user_name = 'John'
 location = 'Germany'
 pollen_type = 'oak'
 message = create_message(location, pollen_type)
-phone_number = '4917657959708'
+phone_number = '491734508014'
 response = send_sms(phone_number, message)
-print(response)""
+
