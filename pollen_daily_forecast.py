@@ -73,6 +73,10 @@ def get_pollen_info_plant(plant_name):
     res['hourly']["max_pollen_value"] = max_pollen_value
     res['hourly']["equivalent_time"] = equivalent_time
 
+    if "_" in plant_name:
+        plant_name = plant_name.replace("_", " ")
+    res['hourly']["plant_name"] = plant_name
+
     # print(res['hourly'])
     return res['hourly']
 

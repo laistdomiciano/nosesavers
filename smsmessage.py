@@ -9,42 +9,37 @@ SEND_SMS_URL = '/sms/2/text/advanced'
 with open('user_dependant_pollen_data.json', 'r') as file:
         data = json.load(file)
 
-def create_pollen_alert_message(data):
+data = data
+
+
+def create_pollen_alert_message():
     """ Creates the message with data from database"""
+
+    global data
+
     messages = []
 
     for entry in data:
-        user_names = entry['user_name']
+        user_name = entry['user_name'][0]
         location = entry['location']
         date = entry['date']
 
-        for plant_data in entry['plants_data']:
-            pollen_type = ''
-            max_pollen_value = 0.0
+        message = f"🌼 Pollen Alert! 🌼\n\nHey {user_name},\nYou are in {location}.\nThe pollen forecast for {date} indicates:"
 
-            if 'ragweed_pollen' in plant_data:
-                pollen_type = 'ragweed'
-                max_pollen_value = max(plant_data['ragweed_pollen'])
-            elif 'birch_pollen' in plant_data:
-                pollen_type = 'birch'
-                max_pollen_value = max(plant_data['birch_pollen'])
-            elif 'alder_pollen' in plant_data:
-                pollen_type = 'alder'
-                max_pollen_value = max(plant_data['alder_pollen'])
-            elif 'mugwort_pollen' in plant_data:
-                pollen_type = 'mugwort'
-                max_pollen_value = max(plant_data['mugwort_pollen'])
-            elif 'grass_pollen' in plant_data:
-                pollen_type = 'grass'
-                max_pollen_value = max(plant_data['grass_pollen'])
-
-            message = f"🌼 Pollen Alert! 🌼\n\nHey {', '.join(user_names)},\nYou are in {location}.\nThe pollen forecast for {date} indicates {pollen_type} pollen, with a maximum value of {max_pollen_value}. Time to close the windows"
+        for i in range(len(entry['plants_data'])):
+            message = f"{entry['plants_data'][i]['plant_name']}, with a maximum value of {entry['plants_data'][i]['max_pollen_value']} at {{entry['plants_data'][i]['equivalent_time']}}), "
             messages.append(message)
+        message = "Time to close the windows"
+        messages.append(message)
 
     return messages
 
-def get_phone_numbers(data):
+
+def get_phone_numbers():
     """Get phone numbers from database"""
+
+    global data
+
     phone_numbers = []
     for entry in data:
         phone_numbers.append(entry["phone_number"])
@@ -52,6 +47,7 @@ def get_phone_numbers(data):
 
 def send_sms(phone_numbers, messages):
     """Sends sms with API"""
+
     for message in messages:
         for phone_number in phone_numbers:
             try:
@@ -84,7 +80,7 @@ def send_sms(phone_numbers, messages):
                 print(f'An error occurred while attempting to send SMS message to "{phone_number}" (message: "{message}"). \nError: {e}')
                 return None
 
-messages = create_pollen_alert_message(data)
-phone_numbers = get_phone_numbers(data)
-response = send_sms(phone_numbers, messages)
+# messages = create_pollen_alert_message()
+# phone_numbers = get_phone_numbers()
+# response = send_sms(phone_numbers, messages)
 

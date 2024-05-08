@@ -1,6 +1,7 @@
 from crud_database import *
 from welcome_message import welcome_message
 from pollen_daily_forecast import get_user_dependant_info, get_info_database
+from smsmessage import *
 import sys
 
 
@@ -27,8 +28,14 @@ W/w to send a message to the \u001b[1mWhole database\u001b[0m\u001b[0m
     send_sms_choice = input("Please select L or W: ")
     if send_sms_choice == "W":
         get_user_dependant_info(USERS_DATA)
-    # elif send_sms_choice == "L":
-    #     get_user_dependant_info(USERS_DATA[-1])
+        messages = create_pollen_alert_message()
+        phone_numbers = get_phone_numbers()
+        response = send_sms(phone_numbers, messages)
+    elif send_sms_choice == "L":
+        get_user_dependant_info([USERS_DATA[-1]])
+        message = create_pollen_alert_message()
+        phone_number = get_phone_numbers()
+        response = send_sms(phone_number, message)
 
 
 def user_selection():
