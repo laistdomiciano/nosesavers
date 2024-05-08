@@ -48,4 +48,5 @@ $ python3 main.py
 
 
 The pollen forecast is based on the European 11-kilometre air quality forecast from CAMS and the global 40-kilometre atmospheric composition forecast from CAMS. The European and global ranges are not coupled and may show different forecasts.
->>>>>>> cb77e42 (Create a file to retrieve daily pollen data from the weather API based on user location, plant selection and current date. For the location, a second API is accessed to convert the location to latitude and longitude)
+
+![Code_1.png](..%2F..%2F..%2FDownloads%2FCode_1.png)
