@@ -25,9 +25,10 @@ def create_pollen_alert_message():
         date = entry['date']
 
         message = f"🌼 Pollen Alert! 🌼\n\nHey {user_name},\nYou are in {location}.\nThe pollen forecast for {date} indicates:"
+        messages.append(message)
 
         for i in range(len(entry['plants_data'])):
-            message = f"{entry['plants_data'][i]['plant_name']}, with a maximum value of {entry['plants_data'][i]['max_pollen_value']} at {{entry['plants_data'][i]['equivalent_time']}}), "
+            message = f"{entry['plants_data'][i]['plant_name']}, with a maximum value of {entry['plants_data'][i]['max_pollen_value']} at {entry['plants_data'][i]['equivalent_time']}), "
             messages.append(message)
         message = "Time to close the windows"
         messages.append(message)
