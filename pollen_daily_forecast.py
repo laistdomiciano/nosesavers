@@ -6,16 +6,6 @@ from datetime import date
 REQUEST_URL = 'https://air-quality-api.open-meteo.com/v1/air-quality?latitude=52.52&longitude=13.41&start_date=2024-05-06&end_date=2024-05-06&hourly='
 LOCATION_RQ_URL = 'https://api.mapbox.com/geocoding/v5/mapbox.places/__enter__location__here__.json?limit=1&access_token=pk.eyJ1Ijoic2F2a292aWNsYXphcjEiLCJhIjoiY2xoNm05ODE4MDY0bzNwcGc1ZTVrcHBucyJ9.ThvLS1wl4OM-Ahpbi5Wmew'
 
-def display_plant_options():
-    print("""Please select one or more plants to which you are allergic from the following list: 
-Alder
-Birch
-Grass
-Mugwort
-Olive
-Ragweed
-""")
-
 
 def get_date():
     today = date.today()
@@ -29,14 +19,20 @@ def get_info_database():
         users_data = json.loads(users_data_str)
     return users_data
 
+
 USERS_DATA = get_info_database()
 
+
 def get_location(USERS_DATA):
+    """Receives as parameter the users database and returns the longitude and latitude
+    for a particular location the user selected"""
 
     global LOCATION_RQ_URL
+    longitude = 0.0
+    latitude = 0.0
 
     for user_data in USERS_DATA:
-        if user_data["user_name"][0] == "Martin" and "__enter__location__here__" in LOCATION_RQ_URL: #  # I need to modify this to check for the id not a single name
+        if "__enter__location__here__" in LOCATION_RQ_URL:
             LOCATION_RQ_URL = LOCATION_RQ_URL.replace("__enter__location__here__", user_data["location"])
             location_info = requests.get(LOCATION_RQ_URL)
             res_location = location_info.json()
@@ -83,37 +79,34 @@ def get_pollen_info_plant(plant_name):
 
 def get_user_dependant_info():
     """Retrieves pollen data for a number of max 6 types of plants based on user
-     selection and writes a JSON file containing the user selection"""
+     selection in the database and writes a JSON file containing the user selection"""
+
+    global USERS_DATA
+
     plants_data = []
-    user_dependant_data = []
-    while True:
-        display_plant_options()
-        try:
-            plants_no = int(input("For how many plants would you like to get the daily forecast? "))
-            if isinstance(plants_no, int) and 0 < plants_no <= 6:
-                break
-            else:
-                print("Please enter a valid integer between 1 and 6.")
-        except ValueError as e:
-            print("Please enter a valid integer between 1 and 6.")
-
-    plant_choices = ["alder", "birch", "grass", "mugwort", "olive", "ragweed"]
-    date = {"date": get_date()}
-
-    for i in range(0, plants_no):
-        search_term = input("Please enter a plant name: ")
-        while search_term.lower() not in plant_choices:
-            search_term = input("Please enter a valid plant name: ")
-        search_term = search_term.lower() + "_pollen"
-        plants_data.append(get_pollen_info_plant(search_term))
-        plants_data.append(date)
+    retrieved_user_dependant_data = []
 
 
+    for i in range(len(USERS_DATA)):
+        # print(USERS_DATA[i]["plants_data"])
+        for search_term in USERS_DATA[i]["plants_data"]:
+            plants_data.append(get_pollen_info_plant(search_term))
 
-    user_dependant_data.append(plants_data)
+    id_user = {}
+    for user_data in USERS_DATA:
+        user_info = {
+            "user_name": user_data["user_name"],
+            "phone_number": user_data["phone_number"],
+            "location": user_data["location"],
+            "date" : get_date(),
+            "plants_data": plants_data
+        }
+        id_user.update(user_info)
+        retrieved_user_dependant_data.append(id_user.copy())
+    # print(retrieved_user_dependant_data)
 
     with open('user_dependant_pollen_data.json', 'w') as fileobj:
-        fileobj.write(json.dumps(user_dependant_data))
+        fileobj.write(json.dumps(retrieved_user_dependant_data))
     print(f"Successfully printed user-dependant pollen data to file!")
 
 

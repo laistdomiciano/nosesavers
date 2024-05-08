@@ -37,6 +37,8 @@ Laís -
 # Requirements:
 You need to run the following commands in the terminal:
 $ pip install requests
+$ pip install uuid
+$ pip install datetime 
 
 # How to Run NoseSaver:
 $ git clone https://github.com/laistdomiciano/nosesavers

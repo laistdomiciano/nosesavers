@@ -12,6 +12,17 @@ def read_database():
 USERS_DATABASE = read_database()
 
 
+def display_plant_options():
+    print("""Please select one or more plants to which you are allergic from the following list: 
+Alder
+Birch
+Grass
+Mugwort
+Olive
+Ragweed
+""")
+
+
 def sync_database():
     """Synchronizes the database"""
     updated_database = json.dumps(USERS_DATABASE)
@@ -21,6 +32,7 @@ def sync_database():
 
 def add_user():
     """Adds new entries in the database"""
+    plants_data = []
     while True:
         try:
             user_first_name = input("Please insert your first name: ")
@@ -31,11 +43,31 @@ def add_user():
             if len(phone_number) != 13:
                 raise ValueError("Please insert a valid phone number.")
             location = input("Please insert a location: ")
+            print()
+            display_plant_options()
+            plants_no = int(input("For how many plants would you like to get the daily forecast? "))
+            if isinstance(plants_no, int) and 0 < plants_no <= 6:
+                print("""We will send you a daile alert in regard to your plant selection.
+Please proceed with selecting the plants.""")
+            else:
+                print("Please enter a valid integer between 1 and 6.")
+
+            plant_choices = ["alder", "birch", "grass", "mugwort", "olive", "ragweed"]
+
+            for i in range(0, plants_no):
+                search_term = input("Please enter a plant name: ")
+                while search_term.lower() not in plant_choices:
+                    search_term = input("Please enter a valid plant name: ")
+                search_term = search_term.lower() + "_pollen"
+                plants_data.append(search_term)
+
             USERS_DATABASE.append({
                 "id": str(uuid.uuid4()),
                 "user_name": [user_first_name, user_last_name],
                 "phone_number": str(phone_number),
-                "location": location
+                "location": location,
+                "plants_no": plants_no,
+                "plants_data": plants_data
             })
             print("User added successfully!")
             break
@@ -114,10 +146,10 @@ def delete_user():
 def crud_database():
     """Calls the functions in the program"""
     read_database()
-    print(read_database())
+    # print(read_database())
     add_user()
-    update_user()
-    delete_user()
+    # update_user()
+    # delete_user()
 
 
 if __name__ == "__main__":
