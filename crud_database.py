@@ -1,5 +1,6 @@
 import json
 import uuid
+from fun_facts import get_fun_facts
 
 
 def read_database():
@@ -13,13 +14,13 @@ USERS_DATABASE = read_database()
 
 
 def display_plant_options():
-    print("""Please select one or more plants to which you are allergic from the following list: 
+    print("""\u001b[35m\u001b[1mPlease select one or more plants to which you are allergic from the following list: 
 Alder
 Birch
 Grass
 Mugwort
 Olive
-Ragweed
+Ragweed\u001b[0m
 """)
 
 
@@ -58,6 +59,8 @@ Please proceed with selecting the plants.""")
                 search_term = input("Please enter a plant name: ")
                 while search_term.lower() not in plant_choices:
                     search_term = input("Please enter a valid plant name: ")
+                # Call of the fun facts function
+                print(f'\u001b[43m{get_fun_facts(search_term)}\u001b[0m')
                 search_term = search_term.lower() + "_pollen"
                 plants_data.append(search_term)
 
@@ -147,7 +150,7 @@ def crud_database():
     """Calls the functions in the program"""
     read_database()
     # print(read_database())
-    add_user()
+    # add_user()
     # update_user()
     # delete_user()
 

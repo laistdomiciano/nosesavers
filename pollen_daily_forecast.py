@@ -77,11 +77,9 @@ def get_pollen_info_plant(plant_name):
     return res['hourly']
 
 
-def get_user_dependant_info():
+def get_user_dependant_info(USERS_DATA):
     """Retrieves pollen data for a number of max 6 types of plants based on user
      selection in the database and writes a JSON file containing the user selection"""
-
-    global USERS_DATA
 
     plants_data = []
     retrieved_user_dependant_data = []
